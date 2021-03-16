@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: debezium-core-demo
-  profiles:
-    active: mysql

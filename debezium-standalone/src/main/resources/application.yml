@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ${APP_NAME:debezium-app}
+debezium:
+  engine-name: ${ENGINE_NAME:enginename}
+  database-server-name: ${DATABASE_SERVER_NAME:databaseservername}
+  connector-class: ${CONNECTOR_CLASS}
+  database-hostname: ${DATABASE_HOSTNAME}
+  database-port: ${DATABASE_PORT}
+  database-name: ${DATABASE_NAME}
+  database-user: ${DATABASE_USER}
+  database-password: ${DATABASE_PASSWORD}
+  offset-storage-file: ${OFFSET_STORAGE_FILE_DIR}
+  database-history-storage-file: ${HISTORY_STORAGE_FILE_DIR}
+  schema-include-list: ${SCHEMA_INCLUDE_LIST}
+  table-include-list: ${TABLE_INCLUDE_LIST}
+  snapshot-mode: ${SNAPSHOT_MODE}
+  plugin-name: ${PLUGIN_NAME}
+  slot-name: ${SLOT_NAME}
