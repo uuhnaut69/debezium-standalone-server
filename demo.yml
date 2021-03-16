@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  postgresql:
+    container_name: postgresql
+    image: debezium/postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  worker:
+    container_name: worker
+    image: uuhnaut69/debezium-standalone:latest
+    depends_on:
+      - postgresql
+    environment:
+      - CONNECTOR_CLASS=io.debezium.connector.postgresql.PostgresConnector
+      - DATABASE_HOSTNAME=postgresql
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - OFFSET_STORAGE_FILE_DIR=/offset/demo.dat
+    volumes:
+      - ./offset/demo.dat:/offset/demo.dat
