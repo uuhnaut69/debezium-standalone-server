@@ -1,5 +1,7 @@
 package com.uuhnaut69.dbz.config;
 
+import io.debezium.connector.mysql.MySqlConnector;
+import io.debezium.relational.RelationalDatabaseConnectorConfig;
 import io.debezium.util.Strings;
 import org.apache.kafka.connect.storage.FileOffsetBackingStore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,7 +25,7 @@ public class ConnectorConfig {
     props.setProperty("database.server.name", connectorProperties.getDatabaseServerName());
     props.setProperty("database.hostname", connectorProperties.getDatabaseHostname());
     props.setProperty("database.dbname", connectorProperties.getDatabaseName());
-    props.setProperty("database.port", connectorProperties.getDatabasePort());
+    props.setProperty("database.port", connectorProperties.getDatabasePort().toString());
     props.setProperty("database.user", connectorProperties.getDatabaseUser());
     props.setProperty("database.password", connectorProperties.getDatabasePassword());
     props.setProperty(OFFSET_STORAGE.toString(), FileOffsetBackingStore.class.getName());
@@ -48,6 +50,14 @@ public class ConnectorConfig {
 
     if (!Strings.isNullOrEmpty(connectorProperties.getTableIncludeList())) {
       props.setProperty("table.include.list", connectorProperties.getTableIncludeList());
+    }
+
+    if (connectorProperties.getConnectorClass().equals(MySqlConnector.class.getName())) {
+      props.setProperty(
+          RelationalDatabaseConnectorConfig.INCLUDE_SCHEMA_CHANGES.toString(), "false");
+      props.setProperty("database.history", "io.debezium.relational.history.FileDatabaseHistory");
+      props.setProperty(
+          "database.history.file.filename", connectorProperties.getDatabaseHistoryStorageFile());
     }
     return io.debezium.config.Configuration.from(props);
   }

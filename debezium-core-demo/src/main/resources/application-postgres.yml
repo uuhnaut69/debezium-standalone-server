@@ -1,0 +1,15 @@
+debezium:
+  engine-name: cdcstreamingengine
+  database-server-name: cdcstreamingserver
+  connector-class: io.debezium.connector.postgresql.PostgresConnector
+  database-hostname: localhost
+  database-port: 5432
+  database-name: postgres
+  database-user: postgres
+  database-password: postgres
+  offset-storage-file: ${OFFSET_FILE_DIR}
+  schema-include-list:
+  table-include-list:
+  snapshot-mode:
+  plugin-name:
+  slot-name:

@@ -1,35 +1,51 @@
 package com.uuhnaut69.dbz.config;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotNull;
-
-@Data
-@Validated
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "debezium")
 public class ConnectorProperties {
 
-  @NotNull private String engineName;
+  /**
+   * Unique name for the connector. Attempting to register again with the same name will fail. (This
+   * property is required by all Kafka Connect connectors.)
+   */
+  private String engineName;
 
-  @NotNull private String connectorClass;
+  /** The name of the Java class for the connector. Always use a value of the connector. */
+  private String connectorClass;
 
-  @NotNull private String databaseHostname;
+  /** IP address or hostname of the database server. */
+  private String databaseHostname;
 
-  @NotNull private String databaseName;
+  /** The name of the database from which to stream the changes */
+  private String databaseName;
 
-  @NotNull private String databasePort;
+  /** Integer port number of the database server. */
+  private Integer databasePort;
 
-  @NotNull private String databaseUser;
+  /** Username to use when connecting to the database server. */
+  private String databaseUser;
 
-  @NotNull private String databasePassword;
+  /** Password to use when connecting to the database server. */
+  private String databasePassword;
 
-  @NotNull private String databaseServerName;
+  /**
+   * Logical name that identifies and provides a namespace for the database server that you want
+   * Debezium to capture. The logical name should be unique across all other connectors, since it is
+   * used as a prefix for all Kafka topic names emanating from this connector. Only alphanumeric
+   * characters and underscores should be used.
+   */
+  private String databaseServerName;
 
-  @NotNull private String offsetStorageFile;
+  /** Offset storage file directory */
+  private String offsetStorageFile;
 
-  @NotNull private String snapshotMode;
+  /** Snapshot mode */
+  private String snapshotMode;
 
   private String pluginName;
 
@@ -38,4 +54,7 @@ public class ConnectorProperties {
   private String schemaIncludeList;
 
   private String tableIncludeList;
+
+  /** History storage file directory (required when connect to mysql) */
+  private String databaseHistoryStorageFile;
 }
