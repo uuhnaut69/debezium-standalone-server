@@ -1,6 +1,6 @@
 package com.uuhnaut69.dbz.worker;
 
-public interface DataCaptureChangeWorker {
+public interface CaptureDataChangeWorker {
 
   void startCdcWorker();
 

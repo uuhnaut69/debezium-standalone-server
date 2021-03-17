@@ -1,6 +1,7 @@
 package com.uuhnaut69.dbz.worker.impl;
 
-import com.uuhnaut69.dbz.worker.DataCaptureChangeWorker;
+import com.uuhnaut69.dbz.stream.StreamService;
+import com.uuhnaut69.dbz.worker.CaptureDataChangeWorker;
 import io.debezium.config.Configuration;
 import io.debezium.data.Envelope;
 import io.debezium.embedded.Connect;
@@ -15,6 +16,7 @@ import org.apache.kafka.connect.source.SourceRecord;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -26,13 +28,15 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DataCaptureChangeWorkerImpl implements DataCaptureChangeWorker {
+public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
 
   private DebeziumEngine<ChangeEvent<SourceRecord, SourceRecord>> engine;
 
   private final Configuration connectorConfiguration;
 
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+  private final StreamService streamService;
 
   @Override
   public void startCdcWorker() {
@@ -69,12 +73,16 @@ public class DataCaptureChangeWorkerImpl implements DataCaptureChangeWorker {
       var op = Envelope.Operation.forCode((String) sourceRecordValue.get(OPERATION));
 
       if (op != Envelope.Operation.READ) {
-        var record = AFTER; // For Update & Insert operations.
+        var record = AFTER;
         if (op == Envelope.Operation.DELETE) {
-          record = BEFORE; // For Delete operations.
+          record = BEFORE;
         }
-        var payload = this.getCDCEventAsMap(record, sourceRecordValue);
-        log.info("Operation {} with payload {}", op, payload);
+        var payload = getCDCEventAsMap(record, sourceRecordValue);
+
+        var cdcEvent = new HashMap<String, Object>();
+        cdcEvent.put("op", op);
+        cdcEvent.put("payload", payload);
+        streamService.publishEvent(cdcEvent);
       }
     }
   }

@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "debezium")
@@ -13,24 +15,31 @@ public class ConnectorProperties {
    * Unique name for the connector. Attempting to register again with the same name will fail. (This
    * property is required by all Kafka Connect connectors.)
    */
+  @NotEmpty
   private String engineName;
 
   /** The name of the Java class for the connector. Always use a value of the connector. */
+  @NotEmpty
   private String connectorClass;
 
   /** IP address or hostname of the database server. */
+  @NotEmpty
   private String databaseHostname;
 
   /** The name of the database from which to stream the changes */
+  @NotEmpty
   private String databaseName;
 
   /** Integer port number of the database server. */
+  @NotEmpty
   private Integer databasePort;
 
   /** Username to use when connecting to the database server. */
+  @NotEmpty
   private String databaseUser;
 
   /** Password to use when connecting to the database server. */
+  @NotEmpty
   private String databasePassword;
 
   /**
@@ -39,9 +48,11 @@ public class ConnectorProperties {
    * used as a prefix for all Kafka topic names emanating from this connector. Only alphanumeric
    * characters and underscores should be used.
    */
+  @NotEmpty
   private String databaseServerName;
 
   /** Offset storage file directory */
+  @NotEmpty
   private String offsetStorageFile;
 
   /** Snapshot mode */

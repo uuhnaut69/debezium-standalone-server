@@ -1,19 +1,23 @@
 spring:
-  application:
-    name: ${APP_NAME:debezium-app}
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
 debezium:
   engine-name: ${ENGINE_NAME:enginename}
   database-server-name: ${DATABASE_SERVER_NAME:databaseservername}
-  connector-class: ${CONNECTOR_CLASS}
-  database-hostname: ${DATABASE_HOSTNAME}
-  database-port: ${DATABASE_PORT}
-  database-name: ${DATABASE_NAME}
-  database-user: ${DATABASE_USER}
-  database-password: ${DATABASE_PASSWORD}
-  offset-storage-file: ${OFFSET_STORAGE_FILE_DIR}
+  connector-class: ${CONNECTOR_CLASS:io.debezium.connector.postgresql.PostgresConnector}
+  database-hostname: ${DATABASE_HOSTNAME:localhost}
+  database-port: ${DATABASE_PORT:5432}
+  database-name: ${DATABASE_NAME:postgres}
+  database-user: ${DATABASE_USER:postgres}
+  database-password: ${DATABASE_PASSWORD:postgres}
+  offset-storage-file: ${OFFSET_STORAGE_FILE_DIR:}
   database-history-storage-file: ${HISTORY_STORAGE_FILE_DIR:}
   schema-include-list: ${SCHEMA_INCLUDE_LIST:}
   table-include-list: ${TABLE_INCLUDE_LIST:}
   snapshot-mode: ${SNAPSHOT_MODE:}
   plugin-name: ${PLUGIN_NAME:}
   slot-name: ${SLOT_NAME:}
+
+stream:
+  endpoint: ${CDC_ENDPOINT:cdc-endpoint}
