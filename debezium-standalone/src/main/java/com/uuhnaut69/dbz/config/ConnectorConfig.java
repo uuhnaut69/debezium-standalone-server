@@ -1,7 +1,6 @@
 package com.uuhnaut69.dbz.config;
 
 import io.debezium.connector.mysql.MySqlConnector;
-import io.debezium.relational.RelationalDatabaseConnectorConfig;
 import io.debezium.util.Strings;
 import org.apache.kafka.connect.storage.FileOffsetBackingStore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -53,8 +52,6 @@ public class ConnectorConfig {
     }
 
     if (connectorProperties.getConnectorClass().equals(MySqlConnector.class.getName())) {
-      props.setProperty(
-          RelationalDatabaseConnectorConfig.INCLUDE_SCHEMA_CHANGES.toString(), "false");
       props.setProperty("database.history", "io.debezium.relational.history.FileDatabaseHistory");
       props.setProperty(
           "database.history.file.filename", connectorProperties.getDatabaseHistoryStorageFile());
