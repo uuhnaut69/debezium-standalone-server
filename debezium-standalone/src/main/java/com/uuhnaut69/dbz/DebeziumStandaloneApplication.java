@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DebeziumCoreDemoApplication {
+public class DebeziumStandaloneApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(DebeziumCoreDemoApplication.class, args);
+    SpringApplication.run(DebeziumStandaloneApplication.class, args);
   }
 }

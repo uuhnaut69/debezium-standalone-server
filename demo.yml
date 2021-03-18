@@ -17,8 +17,8 @@ services:
     ports:
       - 6379:6379
 
-  worker:
-    container_name: worker
+  worker1:
+    container_name: worker1
     image: uuhnaut69/debezium-standalone:latest
     depends_on:
       - postgresql
@@ -33,5 +33,26 @@ services:
       - OFFSET_STORAGE_FILE_DIR=/offset/demo.dat
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - SLOT_NAME=worker1
     volumes:
       - ./offset/demo.dat:/offset/demo.dat
+
+  worker2:
+    container_name: worker2
+    image: uuhnaut69/debezium-standalone:latest
+    depends_on:
+      - postgresql
+      - redis
+    environment:
+      - CONNECTOR_CLASS=io.debezium.connector.postgresql.PostgresConnector
+      - DATABASE_HOSTNAME=postgresql
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - OFFSET_STORAGE_FILE_DIR=/offset/demo2.dat
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SLOT_NAME=worker2
+    volumes:
+      - ./offset/demo2.dat:/offset/demo2.dat

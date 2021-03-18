@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static io.debezium.data.Envelope.FieldName.*;
@@ -35,11 +34,9 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
 
   private DebeziumEngine<ChangeEvent<SourceRecord, SourceRecord>> engine;
 
-  private final Configuration connectorConfiguration;
-
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
-
   private final StreamService streamService;
+
+  private final Configuration connectorConfiguration;
 
   @Override
   @PostConstruct
@@ -50,13 +47,14 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
             .notifying(
                 sourceRecord -> {
                   try {
-                    handleEvent(sourceRecord);
+                    processEvent(sourceRecord);
                   } catch (Exception e) {
                     throw new CDCException(e.getMessage());
                   }
                 })
             .build();
-    this.executor.execute(engine);
+    var executor = Executors.newSingleThreadExecutor();
+    executor.execute(engine);
   }
 
   @Override
@@ -71,14 +69,14 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
     }
   }
 
-  private void handleEvent(ChangeEvent<SourceRecord, SourceRecord> changeEvent) {
+  private void processEvent(ChangeEvent<SourceRecord, SourceRecord> changeEvent) {
     var sourceRecordValue = (Struct) changeEvent.value().value();
     if (Objects.nonNull(sourceRecordValue)) {
       var op = Envelope.Operation.forCode((String) sourceRecordValue.get(OPERATION));
-      if (op != Envelope.Operation.READ) {
+      if (!op.equals(Envelope.Operation.READ)) {
         var record = AFTER;
 
-        if (op == Envelope.Operation.DELETE) {
+        if (op.equals(Envelope.Operation.DELETE)) {
           record = BEFORE;
         }
         var payload = getCDCEventAsMap(record, sourceRecordValue);
@@ -90,6 +88,7 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
         var dbInfo = (Struct) sourceRecordValue.get(SOURCE);
         cdcEvent.put("db", dbInfo.getString("db"));
         cdcEvent.put("table", dbInfo.getString("table"));
+        cdcEvent.put("ts_ms", dbInfo.getInt64("ts_ms"));
         streamService.publishEvent(cdcEvent);
       }
     }

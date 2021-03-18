@@ -57,6 +57,13 @@
             </exclusions>
         </dependency>
 
+        <!--Guava-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.0-jre</version>
+        </dependency>
+        <!--Netty dependency-->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
