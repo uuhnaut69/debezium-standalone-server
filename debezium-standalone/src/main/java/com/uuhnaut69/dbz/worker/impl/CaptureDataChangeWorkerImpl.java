@@ -41,6 +41,7 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
   @Override
   @PostConstruct
   public void startCdcWorker() {
+    log.info("Start cdc worker ...");
     this.engine =
         DebeziumEngine.create(Connect.class)
             .using(connectorConfiguration.asProperties())
@@ -62,6 +63,7 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
   public void stopCdcWorker() {
     if (Objects.nonNull(engine)) {
       try {
+        log.info("Stop cdc worker ...");
         this.engine.close();
       } catch (IOException e) {
         throw new CDCException(e.getMessage());
@@ -95,7 +97,7 @@ public class CaptureDataChangeWorkerImpl implements CaptureDataChangeWorker {
   }
 
   private Map<String, Object> getCDCEventAsMap(String record, Struct payload) {
-    Struct messagePayload = (Struct) payload.get(record);
+    var messagePayload = (Struct) payload.get(record);
     return messagePayload.schema().fields().stream()
         .map(Field::name)
         .filter(fieldName -> messagePayload.get(fieldName) != null)
