@@ -10,7 +10,6 @@ In this example includes:
 - Prebuild docker-compose to demo multi-worker (Using atomic setnx of Redis to deduplicate cdc event).
 
 ## Prerequisites
-
 - Java 11 +
 - Docker
 - Docker-compose
@@ -22,7 +21,7 @@ This multi-worker demo using Postgres.
 
 Create two file offset storage and place their directory into demo.yml
 
-```dockerfile
+```shell
 #File offset storage of worker1
 ./offset/demo.dat:/offset/demo.dat 
 #File offset storage of worker2
@@ -37,7 +36,7 @@ docker-compose -f demo.yml up -d
 
 Connect to Postgres and create some data
 
-```postgresql
+```sql
 create table if not exists public.customers
 (
     id        serial primary key,
@@ -46,7 +45,7 @@ create table if not exists public.customers
 );
 ```
 
-```postgresql
+```sql
 insert into public.customers(full_name, balance) values ('Mark', 1000);
 ```
 
