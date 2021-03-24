@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RStream;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.StringCodec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class RedisStreamService implements StreamService {
 
     if (bucket.trySet(cdcEvent)) {
       log.info("Publish event {} to {} topic", cdcEvent, endpoint);
-      RStream<String, Object> stream = redissonClient.getStream(endpoint);
+      RStream<String, Object> stream = redissonClient.getStream(endpoint, new StringCodec());
       stream.add(UUID.randomUUID().toString(), cdcEvent);
     }
   }
