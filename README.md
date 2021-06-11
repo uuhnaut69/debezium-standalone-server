@@ -5,7 +5,7 @@ event.
 
 In this example includes:
 
-- Standalone Con
+- Standalone worker
 
 - Prebuild docker-compose to demo multi-worker (Using atomic setnx of Redis to deduplicate cdc event).
 
