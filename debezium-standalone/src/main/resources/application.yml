@@ -11,8 +11,6 @@ debezium:
   database-name: ${DATABASE_NAME:postgres}
   database-user: ${DATABASE_USER:postgres}
   database-password: ${DATABASE_PASSWORD:postgres}
-  offset-storage-file: ${OFFSET_STORAGE_FILE_DIR:}
-  database-history-storage-file: ${HISTORY_STORAGE_FILE_DIR:}
   schema-include-list: ${SCHEMA_INCLUDE_LIST:}
   table-include-list: ${TABLE_INCLUDE_LIST:}
   snapshot-mode: ${SNAPSHOT_MODE:}

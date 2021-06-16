@@ -15,32 +15,25 @@ public class ConnectorProperties {
    * Unique name for the connector. Attempting to register again with the same name will fail. (This
    * property is required by all Kafka Connect connectors.)
    */
-  @NotEmpty
-  private String engineName;
+  @NotEmpty private String engineName;
 
   /** The name of the Java class for the connector. Always use a value of the connector. */
-  @NotEmpty
-  private String connectorClass;
+  @NotEmpty private String connectorClass;
 
   /** IP address or hostname of the database server. */
-  @NotEmpty
-  private String databaseHostname;
+  @NotEmpty private String databaseHostname;
 
   /** The name of the database from which to stream the changes */
-  @NotEmpty
-  private String databaseName;
+  @NotEmpty private String databaseName;
 
   /** Integer port number of the database server. */
-  @NotEmpty
-  private Integer databasePort;
+  @NotEmpty private Integer databasePort;
 
   /** Username to use when connecting to the database server. */
-  @NotEmpty
-  private String databaseUser;
+  @NotEmpty private String databaseUser;
 
   /** Password to use when connecting to the database server. */
-  @NotEmpty
-  private String databasePassword;
+  @NotEmpty private String databasePassword;
 
   /**
    * Logical name that identifies and provides a namespace for the database server that you want
@@ -48,12 +41,7 @@ public class ConnectorProperties {
    * used as a prefix for all Kafka topic names emanating from this connector. Only alphanumeric
    * characters and underscores should be used.
    */
-  @NotEmpty
-  private String databaseServerName;
-
-  /** Offset storage file directory */
-  @NotEmpty
-  private String offsetStorageFile;
+  @NotEmpty private String databaseServerName;
 
   /** Snapshot mode */
   private String snapshotMode;
@@ -65,7 +53,4 @@ public class ConnectorProperties {
   private String schemaIncludeList;
 
   private String tableIncludeList;
-
-  /** History storage file directory (required when connect to mysql) */
-  private String databaseHistoryStorageFile;
 }

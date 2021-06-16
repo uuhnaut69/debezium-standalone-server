@@ -30,12 +30,9 @@ services:
       - DATABASE_NAME=postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
-      - OFFSET_STORAGE_FILE_DIR=/offset/demo.dat
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - SLOT_NAME=worker1
-    volumes:
-      - ./offset/demo.dat:/offset/demo.dat
 
   worker2:
     container_name: worker2
@@ -50,9 +47,6 @@ services:
       - DATABASE_NAME=postgres
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
-      - OFFSET_STORAGE_FILE_DIR=/offset/demo2.dat
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - SLOT_NAME=worker2
-    volumes:
-      - ./offset/demo2.dat:/offset/demo2.dat

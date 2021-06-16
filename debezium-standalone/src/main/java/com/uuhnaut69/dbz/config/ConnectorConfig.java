@@ -1,8 +1,9 @@
 package com.uuhnaut69.dbz.config;
 
 import io.debezium.connector.mysql.MySqlConnector;
+import io.debezium.relational.history.MemoryDatabaseHistory;
 import io.debezium.util.Strings;
-import org.apache.kafka.connect.storage.FileOffsetBackingStore;
+import org.apache.kafka.connect.storage.MemoryOffsetBackingStore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,46 +16,55 @@ import static io.debezium.embedded.EmbeddedEngine.*;
 @EnableConfigurationProperties(ConnectorProperties.class)
 public class ConnectorConfig {
 
+  private static final String DATABASE_SERVERNAME = "database.server.name";
+  private static final String DATABASE_HOSTNAME = "database.hostname";
+  private static final String DATABASE_NAME = "database.dbname";
+  private static final String DATABASE_PORT = "database.port";
+  private static final String DATABASE_USER = "database.user";
+  private static final String DATABASE_PASSWORD = "database.password";
+  private static final String SNAPSHOT_MODE = "snapshot.mode";
+  private static final String PLUGIN_NAME = "plugin.name";
+  private static final String SLOT_NAME = "slot.name";
+  private static final String SCHEMA_INCLUDE_LIST = "schema.include.list";
+  private static final String TABLE_INCLUDE_LIST = "table.include.list";
+  private static final String DATABASE_HISTORY = "database.history";
+
   @Bean
   public io.debezium.config.Configuration connectorConfiguration(
       ConnectorProperties connectorProperties) {
     Properties props = new Properties();
     props.setProperty(ENGINE_NAME.toString(), connectorProperties.getEngineName());
     props.setProperty(CONNECTOR_CLASS.toString(), connectorProperties.getConnectorClass());
-    props.setProperty("database.server.name", connectorProperties.getDatabaseServerName());
-    props.setProperty("database.hostname", connectorProperties.getDatabaseHostname());
-    props.setProperty("database.dbname", connectorProperties.getDatabaseName());
-    props.setProperty("database.port", connectorProperties.getDatabasePort().toString());
-    props.setProperty("database.user", connectorProperties.getDatabaseUser());
-    props.setProperty("database.password", connectorProperties.getDatabasePassword());
-    props.setProperty(OFFSET_STORAGE.toString(), FileOffsetBackingStore.class.getName());
-    props.setProperty(
-        OFFSET_STORAGE_FILE_FILENAME.toString(), connectorProperties.getOffsetStorageFile());
+    props.setProperty(DATABASE_SERVERNAME, connectorProperties.getDatabaseServerName());
+    props.setProperty(DATABASE_HOSTNAME, connectorProperties.getDatabaseHostname());
+    props.setProperty(DATABASE_NAME, connectorProperties.getDatabaseName());
+    props.setProperty(DATABASE_PORT, connectorProperties.getDatabasePort().toString());
+    props.setProperty(DATABASE_USER, connectorProperties.getDatabaseUser());
+    props.setProperty(DATABASE_PASSWORD, connectorProperties.getDatabasePassword());
+    props.setProperty(OFFSET_STORAGE.toString(), MemoryOffsetBackingStore.class.getName());
 
     if (!Strings.isNullOrEmpty(connectorProperties.getSnapshotMode())) {
-      props.setProperty("snapshot.mode", connectorProperties.getSnapshotMode());
+      props.setProperty(SNAPSHOT_MODE, connectorProperties.getSnapshotMode());
     }
 
     if (!Strings.isNullOrEmpty(connectorProperties.getPluginName())) {
-      props.setProperty("plugin.name", connectorProperties.getPluginName());
+      props.setProperty(PLUGIN_NAME, connectorProperties.getPluginName());
     }
 
     if (!Strings.isNullOrEmpty(connectorProperties.getSlotName())) {
-      props.setProperty("slot.name", connectorProperties.getSlotName());
+      props.setProperty(SLOT_NAME, connectorProperties.getSlotName());
     }
 
     if (!Strings.isNullOrEmpty(connectorProperties.getSchemaIncludeList())) {
-      props.setProperty("schema.include.list", connectorProperties.getSchemaIncludeList());
+      props.setProperty(SCHEMA_INCLUDE_LIST, connectorProperties.getSchemaIncludeList());
     }
 
     if (!Strings.isNullOrEmpty(connectorProperties.getTableIncludeList())) {
-      props.setProperty("table.include.list", connectorProperties.getTableIncludeList());
+      props.setProperty(TABLE_INCLUDE_LIST, connectorProperties.getTableIncludeList());
     }
 
     if (connectorProperties.getConnectorClass().equals(MySqlConnector.class.getName())) {
-      props.setProperty("database.history", "io.debezium.relational.history.FileDatabaseHistory");
-      props.setProperty(
-          "database.history.file.filename", connectorProperties.getDatabaseHistoryStorageFile());
+      props.setProperty(DATABASE_HISTORY, MemoryDatabaseHistory.class.getName());
     }
     return io.debezium.config.Configuration.from(props);
   }

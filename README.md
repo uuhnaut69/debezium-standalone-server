@@ -1,4 +1,6 @@
 # Debezium Standalone Server
+![Maven Central](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-starter-parent?color=green&label=spring-boot&logo=spring-boot&logoColor=green&style=for-the-badge)
+![Maven Central](https://img.shields.io/maven-central/v/io.debezium/debezium-api?color=green&label=debezium&style=for-the-badge)
 
 Implement Debezium Standalone Server without Apache Kafka, using Redis as infrastructure (Redis Stream) to push CDC
 event.
@@ -7,26 +9,17 @@ In this example includes:
 
 - Standalone worker
 
-- Prebuild docker-compose to demo multi-worker (Using atomic setnx of Redis to deduplicate cdc event).
+- Prebuild docker-compose to demo multi-worker (Using atomic SetNX of Redis to deduplicate cdc event).
 
 ## Prerequisites
-- Java 11 +
-- Docker
-- Docker-compose
-- Redisinsight (Redis GUI)
+- `Java 11+`
+- `Docker`
+- `Docker-compose`
+- `Redis Insight (Redis GUI)`
 
 ## Run multi-worker demo
 
 This multi-worker demo using Postgres.
-
-Create two file offset storage and place their directory into demo.yml
-
-```shell
-#File offset storage of worker1
-./offset/demo.dat:/offset/demo.dat 
-#File offset storage of worker2
-/offset/demo2.dat:/offset/demo2.dat
-```
 
 Start demo
 
