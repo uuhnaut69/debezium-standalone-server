@@ -16,7 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <spring-redisson.version>3.16.0</spring-redisson.version>
-        <debezium.version>1.6.0.CR1</debezium.version>
+        <debezium.version>1.6.0.Final</debezium.version>
     </properties>
     <dependencies>
         <dependency>
