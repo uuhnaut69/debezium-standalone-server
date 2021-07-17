@@ -1,5 +1,5 @@
 # Debezium Standalone Server
-![CircleCI](https://img.shields.io/circleci/build/github/uuhnaut69/debezium-without-kafka/main?color=green&logo=circleci&style=for-the-badge)
+![CircleCI](https://img.shields.io/circleci/build/github/uuhnaut69/debezium-standalone-server/main?color=green&logo=circleci&style=for-the-badge)
 ![Maven Central](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-starter-parent?color=green&label=spring-boot&logo=spring-boot&logoColor=green&style=for-the-badge)
 ![Maven Central](https://img.shields.io/maven-central/v/io.debezium/debezium-api?color=green&label=debezium&style=for-the-badge)
 
