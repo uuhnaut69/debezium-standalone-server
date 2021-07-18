@@ -17,7 +17,6 @@ In this example includes:
 - `Java 11+`
 - `Docker`
 - `Docker-compose`
-- `Redis Insight (Redis GUI)`
 
 ## Run multi-worker demo
 

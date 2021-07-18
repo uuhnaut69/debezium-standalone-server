@@ -10,6 +10,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    restart: on-failure
 
   mysql:
     container_name: mysql
@@ -23,9 +24,20 @@ services:
       - MYSQL_DATABASE=debezium
       - MYSQL_USER=userdemo
       - MYSQL_PASSWORD=userpwd
+    restart: on-failure
 
   redis:
     container_name: redis
-    image: redis
+    image: redislabs/redismod
     ports:
       - 6379:6379
+    restart: on-failure
+
+  redisinsight:
+    image: redislabs/redisinsight
+    container_name: redisinsight
+    ports:
+      - 8001:8001
+    depends_on:
+      - redis
+    restart: on-failure

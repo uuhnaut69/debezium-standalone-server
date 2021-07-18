@@ -18,4 +18,4 @@ debezium:
   slot-name: ${SLOT_NAME:}
 
 stream:
-  endpoint: ${CDC_ENDPOINT:cdc-endpoint}
+  topic: ${CDC_ENDPOINT:cdc-endpoint}

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "debezium")
-public class ConnectorProperties {
+public class ConnectorConfigurationProperties {
 
   /**
    * Unique name for the connector. Attempting to register again with the same name will fail. (This

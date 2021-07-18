@@ -13,7 +13,7 @@ import java.util.Properties;
 import static io.debezium.embedded.EmbeddedEngine.*;
 
 @Configuration
-@EnableConfigurationProperties(ConnectorProperties.class)
+@EnableConfigurationProperties(ConnectorConfigurationProperties.class)
 public class ConnectorConfig {
 
   private static final String DATABASE_SERVERNAME = "database.server.name";
@@ -31,39 +31,39 @@ public class ConnectorConfig {
 
   @Bean
   public io.debezium.config.Configuration connectorConfiguration(
-      ConnectorProperties connectorProperties) {
+      ConnectorConfigurationProperties connectorConfigurationProperties) {
     Properties props = new Properties();
-    props.setProperty(ENGINE_NAME.toString(), connectorProperties.getEngineName());
-    props.setProperty(CONNECTOR_CLASS.toString(), connectorProperties.getConnectorClass());
-    props.setProperty(DATABASE_SERVERNAME, connectorProperties.getDatabaseServerName());
-    props.setProperty(DATABASE_HOSTNAME, connectorProperties.getDatabaseHostname());
-    props.setProperty(DATABASE_NAME, connectorProperties.getDatabaseName());
-    props.setProperty(DATABASE_PORT, connectorProperties.getDatabasePort().toString());
-    props.setProperty(DATABASE_USER, connectorProperties.getDatabaseUser());
-    props.setProperty(DATABASE_PASSWORD, connectorProperties.getDatabasePassword());
+    props.setProperty(ENGINE_NAME.toString(), connectorConfigurationProperties.getEngineName());
+    props.setProperty(CONNECTOR_CLASS.toString(), connectorConfigurationProperties.getConnectorClass());
+    props.setProperty(DATABASE_SERVERNAME, connectorConfigurationProperties.getDatabaseServerName());
+    props.setProperty(DATABASE_HOSTNAME, connectorConfigurationProperties.getDatabaseHostname());
+    props.setProperty(DATABASE_NAME, connectorConfigurationProperties.getDatabaseName());
+    props.setProperty(DATABASE_PORT, connectorConfigurationProperties.getDatabasePort().toString());
+    props.setProperty(DATABASE_USER, connectorConfigurationProperties.getDatabaseUser());
+    props.setProperty(DATABASE_PASSWORD, connectorConfigurationProperties.getDatabasePassword());
     props.setProperty(OFFSET_STORAGE.toString(), MemoryOffsetBackingStore.class.getName());
 
-    if (!Strings.isNullOrEmpty(connectorProperties.getSnapshotMode())) {
-      props.setProperty(SNAPSHOT_MODE, connectorProperties.getSnapshotMode());
+    if (!Strings.isNullOrEmpty(connectorConfigurationProperties.getSnapshotMode())) {
+      props.setProperty(SNAPSHOT_MODE, connectorConfigurationProperties.getSnapshotMode());
     }
 
-    if (!Strings.isNullOrEmpty(connectorProperties.getPluginName())) {
-      props.setProperty(PLUGIN_NAME, connectorProperties.getPluginName());
+    if (!Strings.isNullOrEmpty(connectorConfigurationProperties.getPluginName())) {
+      props.setProperty(PLUGIN_NAME, connectorConfigurationProperties.getPluginName());
     }
 
-    if (!Strings.isNullOrEmpty(connectorProperties.getSlotName())) {
-      props.setProperty(SLOT_NAME, connectorProperties.getSlotName());
+    if (!Strings.isNullOrEmpty(connectorConfigurationProperties.getSlotName())) {
+      props.setProperty(SLOT_NAME, connectorConfigurationProperties.getSlotName());
     }
 
-    if (!Strings.isNullOrEmpty(connectorProperties.getSchemaIncludeList())) {
-      props.setProperty(SCHEMA_INCLUDE_LIST, connectorProperties.getSchemaIncludeList());
+    if (!Strings.isNullOrEmpty(connectorConfigurationProperties.getSchemaIncludeList())) {
+      props.setProperty(SCHEMA_INCLUDE_LIST, connectorConfigurationProperties.getSchemaIncludeList());
     }
 
-    if (!Strings.isNullOrEmpty(connectorProperties.getTableIncludeList())) {
-      props.setProperty(TABLE_INCLUDE_LIST, connectorProperties.getTableIncludeList());
+    if (!Strings.isNullOrEmpty(connectorConfigurationProperties.getTableIncludeList())) {
+      props.setProperty(TABLE_INCLUDE_LIST, connectorConfigurationProperties.getTableIncludeList());
     }
 
-    if (connectorProperties.getConnectorClass().equals(MySqlConnector.class.getName())) {
+    if (connectorConfigurationProperties.getConnectorClass().equals(MySqlConnector.class.getName())) {
       props.setProperty(DATABASE_HISTORY, MemoryDatabaseHistory.class.getName());
     }
     return io.debezium.config.Configuration.from(props);
