@@ -15,7 +15,7 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <debezium.version>1.7.0.Final</debezium.version>
+        <debezium.version>1.7.1.Final</debezium.version>
         <spring-native.version>0.10.5</spring-native.version>
         <spring-redisson.version>3.16.4</spring-redisson.version>
     </properties>
