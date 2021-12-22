@@ -9,10 +9,10 @@ import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.kafka.connect.data.Field;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -100,6 +100,6 @@ public class CaptureDataChangeWorker {
         .map(Field::name)
         .filter(fieldName -> messagePayload.get(fieldName) != null)
         .map(fieldName -> Pair.of(fieldName, messagePayload.get(fieldName)))
-        .collect(toMap(Pair::getKey, Pair::getValue));
+        .collect(toMap(Pair::getFirst, Pair::getSecond));
   }
 }
