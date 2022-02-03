@@ -1,5 +1,11 @@
 package com.uuhnaut69.dbz.worker;
 
+import static io.debezium.data.Envelope.FieldName.AFTER;
+import static io.debezium.data.Envelope.FieldName.BEFORE;
+import static io.debezium.data.Envelope.FieldName.OPERATION;
+import static io.debezium.data.Envelope.FieldName.SOURCE;
+import static java.util.stream.Collectors.toMap;
+
 import com.uuhnaut69.dbz.exception.CDCException;
 import com.uuhnaut69.dbz.stream.StreamService;
 import io.debezium.config.Configuration;
@@ -7,6 +13,13 @@ import io.debezium.data.Envelope;
 import io.debezium.embedded.Connect;
 import io.debezium.engine.ChangeEvent;
 import io.debezium.engine.DebeziumEngine;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.connect.data.Field;
@@ -14,17 +27,6 @@ import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.Executors;
-
-import static io.debezium.data.Envelope.FieldName.*;
-import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @Component
@@ -62,6 +64,7 @@ public class CaptureDataChangeWorker {
       try {
         this.engine.close();
       } catch (IOException e) {
+        log.error(e.getMessage());
         throw new CDCException(e.getMessage());
       } finally {
         log.info("Stop cdc worker ...");

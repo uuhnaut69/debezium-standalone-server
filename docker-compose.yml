@@ -5,7 +5,7 @@ services:
     container_name: postgresql
     image: debezium/postgres:latest
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -16,7 +16,7 @@ services:
     container_name: mysql
     image: mysql:latest
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - ./config/mysql:/etc/mysql/conf.d/
     environment:
@@ -30,14 +30,14 @@ services:
     container_name: redis
     image: redislabs/redismod
     ports:
-      - 6379:6379
+      - "6379:6379"
     restart: on-failure
 
   redisinsight:
     image: redislabs/redisinsight
     container_name: redisinsight
     ports:
-      - 8001:8001
+      - "8001:8001"
     depends_on:
       - redis
     restart: on-failure
