@@ -14,7 +14,7 @@ In this example includes:
 
 ## Prerequisites
 
-- `Java 11+`
+- `Java 17`
 - `Docker`
 - `Docker-compose`
 
