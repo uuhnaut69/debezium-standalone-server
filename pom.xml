@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <gson.version>2.9.0</gson.version>
         <debezium.version>1.9.5.Final</debezium.version>
-        <spring-redisson.version>3.17.4</spring-redisson.version>
+        <spring-redisson.version>3.17.5</spring-redisson.version>
     </properties>
     <dependencies>
         <dependency>
